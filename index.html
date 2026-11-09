@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#111111">
+
+    <title>Auto Show | Conciliação de Cartões</title>
+
+    <!-- Fonte do aplicativo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Arquivo de estilos -->
+    <link rel="stylesheet" href="estilização.css">
+
+    <!-- Biblioteca para leitura de planilhas -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"
+        defer
+    ></script>
+
+    <!-- Arquivo JavaScript -->
+    <script src="funcionamento.js" defer></script>
+</head>
+
+<body>
+
+    <main class="app-shell">
+
+        <!-- CABEÇALHO -->
+        <header class="topbar">
+
+            <a class="brand" href="#" aria-label="Auto Show Distribuidora - início">
+
+                <span class="brand-mark">AS</span>
+
+                <span class="brand-name">
+                    AUTO SHOW
+                    <small>DISTRIBUIDORA</small>
+                </span>
+
+            </a>
+
+            <span class="topbar-tag">
+                <span class="status-dot"></span>
+                PAINEL DE CONFERÊNCIA
+            </span>
+
+        </header>
+
+
+        <!-- APRESENTAÇÃO -->
+        <section class="page-heading">
+
+            <div>
+
+                <p class="eyebrow">
+                    FINANCEIRO
+                    <span>/</span>
+                    CONCILIAÇÃO
+                </p>
+
+                <h1>
+                    Conciliação de
+                    <span>cartões.</span>
+                </h1>
+
+                <p class="page-description">
+                    Compare as vendas do ERP com o extrato da Rede
+                    de forma simples e segura.
+                </p>
+
+            </div>
+
+            <div class="heading-accent" aria-hidden="true">
+                AS<span>.</span>
+            </div>
+
+        </section>
+
+
+        <!-- SELEÇÃO DOS ARQUIVOS -->
+        <section class="panel upload-panel" aria-labelledby="upload-title">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="step-label">ETAPA 01</span>
+
+                    <h2 id="upload-title">
+                        Arquivos da conferência
+                    </h2>
+
+                    <p>
+                        Selecione os dois relatórios para iniciar a análise.
+                    </p>
+
+                </div>
+
+                <span class="section-icon" aria-hidden="true">
+                    ↥
+                </span>
+
+            </div>
+
+
+            <div class="file-grid">
+
+                <!-- ARQUIVO ERP -->
+                <div class="file-field">
+
+                    <label for="arquivo-vendas">
+                        RELATÓRIO DE VENDAS
+                        <span>ERP</span>
+                    </label>
+
+                    <div class="file-control">
+
+                        <div class="file-name-wrap">
+
+                            <span class="file-symbol">▤</span>
+
+                            <input
+                                id="arquivo-vendas"
+                                type="text"
+                                placeholder="Nenhum arquivo selecionado"
+                                readonly
+                            >
+
+                        </div>
+
+                        <button
+                            id="selecionarVendas"
+                            class="button-secondary"
+                            type="button"
+                        >
+                            Selecionar
+                        </button>
+
+                    </div>
+
+                    <input
+                        id="fileErp"
+                        type="file"
+                        accept=".xls,.xlsx,.csv"
+                        hidden
+                    >
+
+                </div>
+
+
+                <!-- ARQUIVO REDE -->
+                <div class="file-field">
+
+                    <label for="arquivo-rede">
+                        EXTRATO DA MAQUININHA
+                        <span>REDE</span>
+                    </label>
+
+                    <div class="file-control">
+
+                        <div class="file-name-wrap">
+
+                            <span class="file-symbol">▤</span>
+
+                            <input
+                                id="arquivo-rede"
+                                type="text"
+                                placeholder="Nenhum arquivo selecionado"
+                                readonly
+                            >
+
+                        </div>
+
+                        <button
+                            id="selecionarRede"
+                            class="button-secondary"
+                            type="button"
+                        >
+                            Selecionar
+                        </button>
+
+                    </div>
+
+                    <input
+                        id="fileRede"
+                        type="file"
+                        accept=".xls,.xlsx,.csv"
+                        hidden
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTÃO DE CONFERÊNCIA -->
+            <div class="upload-footer">
+
+                <p
+                    id="mensagem"
+                    class="feedback"
+                    role="status"
+                    aria-live="polite"
+                >
+                    <span class="feedback-dot"></span>
+                    <span id="mensagem-texto">Aguardando arquivos para conferência.</span>
+                </p>
+
+                <button
+                    id="processar"
+                    class="button-primary"
+                    type="button"
+                >
+
+                    <span>Realizar conferência</span>
+
+                    <span aria-hidden="true">→</span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESULTADOS -->
+        <section
+            class="results-section"
+            aria-labelledby="results-title"
+        >
+
+            <div class="results-heading">
+
+                <div>
+
+                    <span class="step-label">ETAPA 02</span>
+
+                    <h2 id="results-title">
+                        Resultado da conferência
+                    </h2>
+
+                    <p>
+                        Um resumo claro do que foi conciliado
+                        e do que precisa de atenção.
+                    </p>
+
+                </div>
+
+                <span class="result-badge" id="result-badge">
+                    AGUARDANDO ANÁLISE
+                </span>
+
+            </div>
+
+
+            <!-- O JAVASCRIPT INSERE OS RESULTADOS AQUI -->
+            <div
+                id="resultado"
+                class="results-content"
+                aria-live="polite"
+            >
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Sua conferência aparecerá aqui
+                    </h3>
+
+                    <p>
+                        Assim que os dois arquivos forem selecionados,
+                        clique em “Realizar conferência” para visualizar
+                        o resumo.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RODAPÉ -->
+        <footer class="app-footer">
+
+            <span>AUTO SHOW DISTRIBUIDORA</span>
+
+            <span>CONFERÊNCIA FINANCEIRA</span>
+
+        </footer>
+
+    </main>
+
+</body>
+</html>
